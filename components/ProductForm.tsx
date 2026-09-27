@@ -38,6 +38,10 @@ export default function ProductForm({ product }: { product?: Product }) {
             <input id="brand" name="brand" defaultValue={p?.brand} className="input" />
           </div>
           <div>
+            <label htmlFor="sku" className="label">Art.nr</label>
+            <input id="sku" name="sku" defaultValue={p?.sku} className="input font-mono text-xs" placeholder="NG-104500" />
+          </div>
+          <div>
             <label htmlFor="slug" className="label">URL-namn (lämna tomt = auto)</label>
             <input id="slug" name="slug" defaultValue={p?.slug} className="input font-mono text-xs" />
           </div>
@@ -51,7 +55,7 @@ export default function ProductForm({ product }: { product?: Product }) {
           </div>
           <div>
             <label htmlFor="subcategory" className="label">Typ / underkategori</label>
-            <input id="subcategory" name="subcategory" defaultValue={p?.subcategory} className="input" placeholder="Fristående / underbänk" />
+            <input id="subcategory" name="subcategory" defaultValue={p?.subcategory} className="input" placeholder="Frontmatad / underbänk" />
           </div>
         </div>
 

@@ -6,6 +6,7 @@ function normalize(row: Record<string, unknown>): Product {
   return {
     id: String(row.id),
     slug: String(row.slug),
+    sku: String(row.sku ?? ''),
     name: String(row.name ?? ''),
     brand: String(row.brand ?? ''),
     category: String(row.category ?? ''),
@@ -47,7 +48,7 @@ export async function listProducts(opts: { q?: string; category?: string; featur
   if (opts.q) {
     const q = opts.q.toLowerCase();
     items = items.filter((p) =>
-      [p.name, p.brand, p.short, p.subcategory].some((f) => f.toLowerCase().includes(q)),
+      [p.name, p.brand, p.short, p.subcategory, p.sku].some((f) => f.toLowerCase().includes(q)),
     );
   }
   return items;

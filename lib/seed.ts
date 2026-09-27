@@ -5,11 +5,12 @@ import type { Product } from './types';
 export const SEED_PRODUCTS: Product[] = [
   {
     id: 'seed-fd50',
+    sku: 'NG-104500',
     slug: 'nordgrad-fd-50-frontmatad-diskmaskin',
     name: 'FD-50 Frontmatad diskmaskin',
     brand: 'Nordgrad',
     category: 'diskmaskiner',
-    subcategory: 'Fristående / underbänk',
+    subcategory: 'Frontmatad / underbänk',
     short: 'Vår mest sålda diskmaskin. Klarar lunchrusningen i café, pizzeria och mindre restaurang.',
     description:
       'FD-50 är en fristående frontmatad diskmaskin för kök med 40–80 kuvert per pass. Den får plats under en vanlig bänk och tar standardkorgar 500×500 mm. Tre program täcker allt från glas till kastruller, och sköljpumpen håller sköljtemperaturen jämn på 85 °C även när maskinen körs tätt. Diskmedels- och sköljmedelsdosering är inbyggd.',
@@ -33,11 +34,12 @@ export const SEED_PRODUCTS: Product[] = [
   },
   {
     id: 'seed-fd50s',
+    sku: 'NG-104505',
     slug: 'nordgrad-fd-50s-frontmatad-diskmaskin-avhardare',
     name: 'FD-50S Frontmatad diskmaskin med avhärdare',
     brand: 'Nordgrad',
     category: 'diskmaskiner',
-    subcategory: 'Fristående / underbänk',
+    subcategory: 'Frontmatad / underbänk',
     short: 'Samma arbetshäst som FD-50, med inbyggd avhärdare och avloppspump.',
     description:
       'FD-50S är för kök med hårt vatten eller där avloppet sitter högt. Den inbyggda avhärdaren skyddar elementen mot kalk och ger fläckfria glas utan eftertorkning. Avloppspumpen gör att maskinen kan placeras fritt i köket. Dubbelväggig isolerad lucka håller ljudnivån nere och värmen inne.',
@@ -62,6 +64,7 @@ export const SEED_PRODUCTS: Product[] = [
   },
   {
     id: 'seed-hd60',
+    sku: 'NG-106000',
     slug: 'nordgrad-hd-60-huvdiskmaskin',
     name: 'HD-60 Huvdiskmaskin',
     brand: 'Nordgrad',
@@ -90,6 +93,7 @@ export const SEED_PRODUCTS: Product[] = [
   },
   {
     id: 'seed-gd40',
+    sku: 'NG-104000',
     slug: 'nordgrad-gd-40-glasdiskmaskin',
     name: 'GD-40 Glasdiskmaskin',
     brand: 'Nordgrad',

@@ -55,9 +55,9 @@ export default function CookieBanner() {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-[60] p-3 sm:p-5" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
-      <div className="mx-auto max-w-3xl rounded-xl border border-steel-200 bg-white p-5 shadow-[0_20px_60px_-20px_rgba(16,28,38,0.45)] sm:p-6" role="dialog" aria-label="Cookies">
-        <h2 className="font-display text-lg font-bold">Vi använder cookies</h2>
+    <div className="fixed bottom-0 left-0 z-[60] w-full p-3 sm:max-w-[460px] sm:p-5" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
+      <div className="rounded-lg border border-ink/10 bg-white p-5 shadow-[0_24px_60px_-20px_rgba(21,24,22,0.5)] sm:p-6" role="dialog" aria-label="Cookies">
+        <h2 className="text-[18px] font-bold tracking-tight">Cookies</h2>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
           Nödvändiga cookies håller igång varukorgen och inloggningen. Med ditt samtycke använder vi även cookies för statistik och
           marknadsföring. Läs mer i vår <Link href="/integritet" className="underline">integritetspolicy</Link>.
@@ -71,7 +71,7 @@ export default function CookieBanner() {
           </div>
         )}
 
-        <div className="mt-5 flex flex-wrap gap-2">
+        <div className="mt-5 flex flex-wrap items-center gap-2 [&_.btn]:px-4 [&_.btn]:py-2.5 [&_.btn]:text-[14px]">
           {custom ? (
             <button className="btn-primary" onClick={() => done(analytics, marketing)}>
               Spara val

@@ -1,157 +1,171 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import ProductCard from '@/components/ProductCard';
-import ProductImage from '@/components/ProductImage';
+import ProductCard, { ProductGrid } from '@/components/ProductCard';
 import { listProducts } from '@/lib/products';
-import { inclVat, kr } from '@/lib/format';
 import { site } from '@/lib/site';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const featured = await listProducts({ featured: true });
-  const hero = featured[0];
+  const [big1, big2, ...small] = site.categories;
 
   return (
     <>
       {/* Hero */}
-      <section className="border-b border-steel-200 bg-steel-50">
-        <div className="wrap grid items-center gap-10 py-12 md:py-16 lg:grid-cols-[1.1fr_1fr]">
-          <div>
-            <p className="eyebrow">Storköksutrustning · Leverans i hela Sverige</p>
-            <h1
-              className="mt-4 font-display text-[40px] font-extrabold leading-[1.02] tracking-tight sm:text-[56px]"
-              style={{ fontStretch: '112%' }}
-            >
-              Köksmaskiner för kök som aldrig tar paus.
-            </h1>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-soft sm:text-lg">
-              Diskmaskiner, varmkök och kyl för restaurang, café och storkök. Vi hjälper dig välja rätt kapacitet, levererar och
-              installerar.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/produkter" className="btn-primary">
-                Utforska sortimentet
-              </Link>
-              <Link href="/kontakt" className="btn-ghost">
-                Begär offert på helhetslösning
-              </Link>
+      <section className="bg-ink">
+        <div className="mx-auto grid max-w-[1600px] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+          <div className="flex flex-col justify-between gap-10 px-4 py-12 sm:px-8 lg:py-16 lg:pl-[max(2rem,calc((100vw-1320px)/2+2rem))] lg:pr-12">
+            <div>
+              <p className="text-[14px] font-medium text-signal">Köksmaskiner för restaurang & storkök</p>
+              <h1 className="mt-5 text-[44px] font-bold leading-[0.98] tracking-tightest text-white sm:text-[64px]">
+                Maskinerna bakom varje service.
+              </h1>
+              <p className="mt-6 max-w-md text-[17px] leading-relaxed text-white/70">
+                Diskmaskiner, varmkök och kyl för restauranger, pizzerior och storkök. Vi hjälper dig välja rätt storlek, levererar och
+                installerar.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/produkter" className="btn bg-white text-ink hover:bg-steel-100">Se hela sortimentet</Link>
+              <Link href="/kontakt" className="btn border border-white/25 text-white hover:border-white">Be om offert</Link>
             </div>
           </div>
+          <div className="relative min-h-[300px] sm:min-h-[420px] lg:min-h-[560px]">
+            <img src={site.images.hero} alt="Kockar som arbetar i ett restaurangkök" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute bottom-0 left-0 hidden bg-white p-5 pr-8 sm:block">
+              <p className="text-[13px] text-ink-mute">Rådgivning av storköksteknik</p>
+              <p className="mt-0.5 text-[20px] font-bold tracking-tight">{site.phone}</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          {hero && (
-            <Link
-              href={`/produkt/${hero.slug}`}
-              className="group relative block rounded-xl border border-steel-200 bg-white p-6 transition hover:border-steel-300"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="eyebrow text-accent">Mest säljande</p>
-                  <p className="mt-1 font-display text-xl font-bold">{hero.name}</p>
-                </div>
-                <div className="text-right">
-                  <p className="tabular text-xl font-bold">{kr(hero.price)}</p>
-                  <p className="tabular text-xs text-ink-mute">{kr(inclVat(hero.price))} inkl. moms</p>
-                </div>
-              </div>
-              <div className="mx-auto my-4 aspect-square max-w-[300px]">
-                <ProductImage product={hero} className="transition duration-300 group-hover:scale-[1.02]" />
-              </div>
-              <dl className="grid grid-cols-3 divide-x divide-steel-200 rounded-lg border border-steel-200 text-center">
-                {hero.specs.slice(0, 3).map((s) => (
-                  <div key={s.label} className="px-2 py-3">
-                    <dt className="eyebrow text-[10px]">{s.label}</dt>
-                    <dd className="tabular mt-1 text-sm font-semibold">{s.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </Link>
-          )}
+      {/* Löften */}
+      <section className="border-b border-steel-200">
+        <div className="wrap">
+          <ul className="grid grid-cols-2 gap-px bg-steel-200 lg:grid-cols-4">
+            {[
+              ['1–3 dagar', 'leveranstid på lagervaror'],
+              ['Fri frakt', `över ${site.freeShippingFrom.toLocaleString('sv-SE')} kr exkl. moms`],
+              ['12–36 mån', 'delbetalning för företag'],
+              ['Prisgaranti', 'hittar du lägre pris matchar vi'],
+            ].map(([a, b]) => (
+              <li key={a} className="bg-white py-6 pr-4 [&:nth-child(even)]:pl-5 lg:[&:not(:first-child)]:pl-6">
+                <p className="text-[20px] font-bold tracking-tight">{a}</p>
+                <p className="mt-0.5 text-[14px] text-ink-mute">{b}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
       {/* Kategorier */}
-      <section className="wrap py-14">
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <h2 className="font-display text-2xl font-bold sm:text-3xl">Handla efter kategori</h2>
-          <Link href="/produkter" className="text-sm font-semibold text-accent hover:underline">
-            Alla produkter →
+      <section className="wrap pt-16">
+        <div className="flex items-end justify-between gap-4">
+          <h2 className="text-[32px] font-bold tracking-tightest sm:text-[40px]">Sortiment</h2>
+          <Link href="/produkter" className="pb-1.5 text-[15px] font-semibold underline decoration-steel-300 underline-offset-4 hover:decoration-ink">
+            Alla produkter
           </Link>
         </div>
-        <ul className="grid grid-cols-2 gap-3 md:grid-cols-3">
-          {site.categories.map((c) => (
-            <li key={c.slug}>
-              <Link
-                href={`/produkter?kategori=${c.slug}`}
-                className="group flex h-full flex-col justify-between gap-6 rounded-lg border border-steel-200 p-5 transition hover:border-ink"
-              >
-                <span className="font-display text-lg font-bold">{c.name}</span>
-                <span className="flex items-end justify-between gap-3 text-sm text-ink-mute">
-                  {c.blurb}
-                  <span className="text-ink transition group-hover:translate-x-1">→</span>
-                </span>
-              </Link>
-            </li>
+        <div className="mt-6 grid gap-3 md:grid-cols-2">
+          {[big1, big2].map((c) => (
+            <CategoryTile key={c.slug} c={c} large />
           ))}
-        </ul>
+        </div>
+        <div className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {small.map((c) => (
+            <CategoryTile key={c.slug} c={c} />
+          ))}
+        </div>
       </section>
 
       {/* Mest köpta */}
-      <section className="wrap pb-6">
-        <div className="mb-6">
-          <p className="eyebrow">Topplistan</p>
-          <h2 className="mt-1 font-display text-2xl font-bold sm:text-3xl">Mest köpta just nu</h2>
-        </div>
-        {featured.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.slice(0, 8).map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-ink-mute">Inga utvalda produkter ännu.</p>
-        )}
-      </section>
-
-      {/* Process */}
-      <section className="wrap py-16">
-        <div className="grid gap-10 lg:grid-cols-[1fr_2fr]">
+      <section className="wrap pt-20">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="font-display text-2xl font-bold sm:text-3xl">Från beställning till första disken</h2>
-            <p className="mt-3 text-ink-soft">
-              Vi tar hand om hela kedjan så att köket står still så kort tid som möjligt.
-            </p>
+            <h2 className="text-[32px] font-bold tracking-tightest sm:text-[40px]">Mest köpta</h2>
+            <p className="mt-2 text-ink-mute">Det restauranger och caféer beställer oftast just nu.</p>
           </div>
-          <ol className="grid gap-px overflow-hidden rounded-lg border border-steel-200 bg-steel-200 sm:grid-cols-2">
-            {[
-              ['Rådgivning', 'Vi räknar på kuvert per pass och föreslår rätt kapacitet och anslutning.'],
-              ['Leverans', 'Fraktfritt över 10 000 kr. Vi bokar tid som passar köket.'],
-              ['Installation', 'Behörig tekniker ansluter el, vatten och avlopp och provkör maskinen.'],
-              ['Service', 'Reservdelar i lager och serviceavtal när du vill slippa tänka på det.'],
-            ].map(([t, d], i) => (
-              <li key={t} className="bg-white p-6">
-                <span className="tabular font-mono text-xs text-accent">Steg {i + 1}</span>
-                <h3 className="mt-2 font-display text-lg font-bold">{t}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{d}</p>
-              </li>
-            ))}
-          </ol>
+          <p className="text-[14px] text-ink-mute">Alla priser exkl. moms</p>
+        </div>
+        <div className="mt-6">
+          {featured.length ? (
+            <ProductGrid>
+              {featured.slice(0, 8).map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </ProductGrid>
+          ) : (
+            <p className="text-ink-mute">Inga utvalda produkter ännu.</p>
+          )}
         </div>
       </section>
 
-      {/* Offert */}
-      <section className="wrap">
-        <div className="flex flex-col gap-6 rounded-xl bg-ink p-8 text-white sm:p-12 md:flex-row md:items-center md:justify-between">
-          <div className="max-w-xl">
-            <h2 className="font-display text-2xl font-bold sm:text-3xl">Ska du bygga eller byta ut ett helt kök?</h2>
-            <p className="mt-3 text-steel-300">
-              Skicka en skiss eller beskriv verksamheten. Du får en kostnadsfri offert med maskiner, rostfri inredning och installation.
-            </p>
+      {/* Helhetslösning */}
+      <section className="wrap pt-20">
+        <div className="grid overflow-hidden rounded-lg bg-steel-100 lg:grid-cols-2">
+          <div className="relative min-h-[280px]">
+            <img src={site.images.complete} alt="Nyinstallerat storkök i rostfritt" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
           </div>
-          <Link href="/kontakt" className="btn bg-white text-ink hover:bg-steel-100">
-            Be om offert
-          </Link>
+          <div className="p-8 sm:p-12 lg:p-14">
+            <h2 className="text-[30px] font-bold leading-tight tracking-tightest sm:text-[36px]">Nytt kök från ritning till första servering</h2>
+            <p className="mt-4 max-w-md leading-relaxed text-ink-soft">
+              Skicka en skiss eller beskriv lokalen. Vi ritar upp köket, föreslår maskiner och rostfri inredning och tar hand om leverans och
+              installation.
+            </p>
+            <ul className="mt-6 space-y-2.5 text-[15px]">
+              {['Planritning och maskinförslag utan kostnad', 'Rostfria bänkar och kåpor efter mått', 'Behöriga installatörer för el, vatten och avlopp', 'Service och reservdelar efter öppning'].map((t) => (
+                <li key={t} className="flex gap-3">
+                  <svg className="mt-1 shrink-0" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#0e5a44" strokeWidth="2.4"><path d="M3 8.5l3 3 7-7" /></svg>
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/kontakt" className="btn-primary">Be om offert</Link>
+              <Link href="/om-oss" className="btn-ghost">Så arbetar vi</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Verksamheter */}
+      <section className="wrap pt-20">
+        <h2 className="text-[32px] font-bold tracking-tightest sm:text-[40px]">Vi utrustar</h2>
+        <div className="mt-6 grid gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+          {site.segments.map((s) => (
+            <Link key={s.name} href={s.href} className="group block">
+              <div className="aspect-[4/5] overflow-hidden rounded-md bg-steel-100">
+                <img src={s.image} alt="" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" loading="lazy" />
+              </div>
+              <h3 className="mt-4 text-[20px] font-bold tracking-tight group-hover:text-accent">{s.name}</h3>
+              <p className="mt-1 text-[15px] leading-relaxed text-ink-soft">{s.text}</p>
+            </Link>
+          ))}
         </div>
       </section>
     </>
+  );
+}
+
+function CategoryTile({ c, large = false }: { c: (typeof site.categories)[number]; large?: boolean }) {
+  return (
+    <Link
+      href={`/produkter?kategori=${c.slug}`}
+      className={`group relative block overflow-hidden rounded-md bg-ink ${large ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}
+    >
+      <img src={c.image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-[1.04]" loading="lazy" />
+      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/70 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-6">
+        <div>
+          <h3 className={`font-bold tracking-tight text-white ${large ? 'text-[26px] sm:text-[32px]' : 'text-[18px] sm:text-[22px]'}`}>{c.name}</h3>
+          {large && <p className="mt-1 text-[15px] text-white/80">{c.blurb}</p>}
+        </div>
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-ink transition-transform group-hover:translate-x-1">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+        </span>
+      </div>
+    </Link>
   );
 }

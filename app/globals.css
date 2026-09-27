@@ -12,6 +12,7 @@ html {
 
 body {
   @apply bg-white text-ink font-sans antialiased;
+  font-feature-settings: 'ss01';
 }
 
 h1, h2, h3 {
@@ -22,12 +23,22 @@ h1, h2, h3 {
   font-variant-numeric: tabular-nums;
 }
 
+/* Rutat ritpapper bakom produktritningarna */
+.drafting {
+  background-color: #f6f7f5;
+  background-image:
+    linear-gradient(#e6e9e5 1px, transparent 1px),
+    linear-gradient(90deg, #e6e9e5 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: -1px -1px;
+}
+
 @layer components {
   .wrap {
-    @apply mx-auto w-full max-w-site px-4 sm:px-6;
+    @apply mx-auto w-full max-w-site px-4 sm:px-6 lg:px-8;
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-[15px] font-semibold transition-colors
       focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent
       disabled:cursor-not-allowed disabled:opacity-50;
   }
@@ -38,23 +49,26 @@ h1, h2, h3 {
     @apply btn bg-ink text-white hover:bg-ink-soft;
   }
   .btn-ghost {
-    @apply btn border border-steel-300 bg-white text-ink hover:border-ink;
+    @apply btn border border-ink/20 bg-transparent text-ink hover:border-ink;
   }
   .label {
-    @apply mb-1.5 block text-xs font-semibold uppercase tracking-[0.08em] text-ink-mute;
+    @apply mb-1.5 block text-[13px] font-semibold text-ink-soft;
   }
   .input {
-    @apply w-full rounded-md border border-steel-300 bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-mute/70
-      focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20;
+    @apply w-full rounded-md border border-steel-300 bg-white px-3 py-2.5 text-[15px] text-ink placeholder:text-ink-mute/70
+      focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15;
   }
   .eyebrow {
-    @apply font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-mute;
+    @apply text-[13px] font-medium text-ink-mute;
+  }
+  .artnr {
+    @apply font-mono text-[11px] font-medium tracking-wide text-ink-mute;
   }
   .prose-sv p {
-    @apply mb-4 leading-relaxed text-ink-soft;
+    @apply mb-4 text-[16px] leading-[1.7] text-ink-soft;
   }
   .prose-sv h2 {
-    @apply mb-3 mt-8 font-display text-xl font-bold text-ink;
+    @apply mb-3 mt-8 text-xl font-bold tracking-tight text-ink;
   }
 }
 

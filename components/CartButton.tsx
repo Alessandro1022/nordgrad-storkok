@@ -1,26 +1,31 @@
 'use client';
 
 import { useCart } from './CartProvider';
+import { kr } from '@/lib/format';
 
 export default function CartButton() {
-  const { count, setOpen } = useCart();
+  const { count, subtotal, setOpen } = useCart();
   return (
     <button
       onClick={() => setOpen(true)}
-      className="relative flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold hover:bg-steel-100"
+      className="group flex items-center gap-3 rounded-md py-1.5 pl-2 pr-1 hover:bg-steel-100"
       aria-label={`Varukorg, ${count} varor`}
     >
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.7a2 2 0 002-1.5L21 8H6.2" />
-        <circle cx="10" cy="20" r="1.4" />
-        <circle cx="17" cy="20" r="1.4" />
-      </svg>
-      <span className="hidden sm:inline">Varukorg</span>
-      {count > 0 && (
-        <span className="tabular absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[11px] text-white sm:static">
-          {count}
-        </span>
-      )}
+      <span className="hidden text-right leading-tight sm:block">
+        <span className="block text-[12px] text-ink-mute">Varukorg</span>
+        <span className="tabular block text-[15px] font-semibold">{kr(subtotal)}</span>
+      </span>
+      <span className="relative flex h-10 w-10 items-center justify-center rounded-md bg-ink text-white">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M4 7h16l-1.4 11.2a2 2 0 01-2 1.8H7.4a2 2 0 01-2-1.8L4 7z" />
+          <path d="M9 7V5.5a3 3 0 016 0V7" />
+        </svg>
+        {count > 0 && (
+          <span className="tabular absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-signal px-1 text-[11px] font-bold text-ink">
+            {count}
+          </span>
+        )}
+      </span>
     </button>
   );
 }

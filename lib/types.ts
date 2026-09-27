@@ -3,6 +3,7 @@ export type Spec = { label: string; value: string };
 export type Product = {
   id: string;
   slug: string;
+  sku: string;
   name: string;
   brand: string;
   category: string;

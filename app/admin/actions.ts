@@ -93,6 +93,7 @@ export async function saveProduct(_prev: SaveState, form: FormData): Promise<Sav
   const row = {
     name,
     slug,
+    sku: get('sku'),
     brand: get('brand'),
     category: get('category') || 'diskmaskiner',
     subcategory: get('subcategory'),

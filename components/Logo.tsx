@@ -2,20 +2,20 @@ import Link from 'next/link';
 import { site } from '@/lib/site';
 
 export default function Logo({ light = false }: { light?: boolean }) {
+  const fg = light ? '#ffffff' : '#151816';
   return (
-    <Link href="/" className="flex items-center gap-2.5" aria-label={`${site.name}, startsida`}>
-      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
-        <rect x="1" y="1" width="30" height="30" rx="6" fill={light ? '#ffffff' : '#101c26'} />
-        <path d="M8 22V10l8 12V10" stroke={light ? '#101c26' : '#ffffff'} strokeWidth="2.6" fill="none" strokeLinejoin="round" />
-        <circle cx="23" cy="11" r="2.4" fill="#0a5bd8" />
+    <Link href="/" className="flex items-center gap-3" aria-label={`${site.name}, startsida`}>
+      {/* Märket: en GN 1/1-kantin sedd uppifrån, 530 × 325 */}
+      <svg width="34" height="22" viewBox="0 0 53 32.5" aria-hidden="true">
+        <rect x="1" y="1" width="51" height="30.5" rx="3" fill="none" stroke={fg} strokeWidth="2" />
+        <rect x="6" y="6" width="41" height="20.5" rx="1.5" fill={fg} />
+        <rect x="6" y="6" width="13" height="20.5" rx="1.5" fill="#0e5a44" />
       </svg>
-      <span className="leading-none">
-        <span className={`block font-display text-[19px] font-extrabold tracking-tight ${light ? 'text-white' : 'text-ink'}`} style={{ fontStretch: '115%' }}>
-          {site.short.toUpperCase()}
+      <span className="flex items-baseline gap-1.5 leading-none">
+        <span className="text-[22px] font-bold tracking-tightest" style={{ color: fg }}>
+          {site.short.toLowerCase()}
         </span>
-        <span className={`block font-mono text-[9.5px] font-medium tracking-[0.3em] ${light ? 'text-steel-300' : 'text-ink-mute'}`}>
-          STORKÖK
-        </span>
+        <span className={`text-[13px] font-medium ${light ? 'text-white/60' : 'text-ink-mute'}`}>storkök</span>
       </span>
     </Link>
   );
