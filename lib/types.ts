@@ -36,6 +36,11 @@ export type Order = {
   created_at: string;
   status: string;
   total: number;
+  shipping?: number;
+  payment_method?: string | null;
+  payment_provider?: string | null;
+  payment_ref?: string | null;
+  paid_at?: string | null;
   customer: Record<string, string>;
   items: { id: string; name: string; price: number; qty: number }[];
 };

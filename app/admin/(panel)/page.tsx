@@ -7,7 +7,7 @@ import { deleteProduct, toggleFeatured } from '../actions';
 
 export default async function AdminProducts({ searchParams }: { searchParams: { sparad?: string; borttagen?: string } }) {
   const [products, orders, messages] = await Promise.all([listProducts(), listOrders(), listMessages()]);
-  const newOrders = orders.filter((o) => o.status === 'ny').length;
+  const newOrders = orders.filter((o) => o.status === 'ny' || o.status === 'betald').length;
   const lowStock = products.filter((p) => p.stock <= 3).length;
 
   return (

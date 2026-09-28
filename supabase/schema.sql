@@ -44,6 +44,21 @@ create table if not exists public.messages (
   message text not null
 );
 
+-- Betalning (tillagt i version 3)
+alter table public.orders add column if not exists shipping numeric not null default 0;
+alter table public.orders add column if not exists payment_method text;
+alter table public.orders add column if not exists payment_provider text;
+alter table public.orders add column if not exists payment_ref text;
+alter table public.orders add column if not exists paid_at timestamptz;
+
+-- Inställningar från admin (t.ex. betalnycklar). Bara servern kommer åt tabellen.
+create table if not exists public.settings (
+  key text primary key,
+  value jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+alter table public.settings enable row level security;
+
 -- RLS på utan policies = bara servern (service role) kommer åt tabellerna.
 alter table public.products enable row level security;
 alter table public.orders enable row level security;

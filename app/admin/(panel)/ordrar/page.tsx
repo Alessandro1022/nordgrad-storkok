@@ -4,10 +4,17 @@ import { setOrderStatus } from '../../actions';
 
 const STATUSES = [
   ['ny', 'Ny', 'bg-accent-tint text-accent'],
+  ['vantar', 'Väntar på betalning', 'bg-steel-100 text-ink-mute'],
+  ['betald', 'Betald', 'bg-green-100 text-green-800'],
   ['bekraftad', 'Bekräftad', 'bg-amber-50 text-amber-800'],
   ['skickad', 'Skickad', 'bg-green-50 text-green-800'],
   ['avbruten', 'Avbruten', 'bg-steel-100 text-ink-mute'],
+  ['misslyckad', 'Betalning misslyckad', 'bg-red-50 text-red-700'],
 ] as const;
+
+// Knapparna admin kan välja manuellt (betalstatus sätts automatiskt).
+const MANUAL = ['ny', 'bekraftad', 'skickad', 'avbruten'];
+const METHOD: Record<string, string> = { card: 'Kort', klarna: 'Klarna', paypal: 'PayPal', invoice: 'Faktura' };
 
 export default async function OrdersPage() {
   const orders = await listOrders();
@@ -28,7 +35,12 @@ export default async function OrdersPage() {
                     {o.customer.name} · <span className="select-all">{o.customer.email}</span> · {o.customer.phone}
                   </p>
                   <p className="text-sm text-ink-soft">{o.customer.address}, {o.customer.zip} {o.customer.city}</p>
-                  {o.customer.payment && <p className="mt-1 text-xs text-ink-mute">Betalning: {o.customer.payment}{o.customer.orgnr ? ` · Org.nr ${o.customer.orgnr}` : ''}</p>}
+                  <p className="mt-1 text-xs text-ink-mute">
+                    Betalning: {METHOD[o.payment_method ?? ''] ?? o.customer.payment ?? '–'}
+                    {o.payment_provider && o.payment_provider !== 'manual' ? ` via ${o.payment_provider}` : ''}
+                    {o.payment_ref ? ` · ref ${o.payment_ref}` : ''}
+                    {o.customer.orgnr ? ` · Org.nr ${o.customer.orgnr}` : ''}
+                  </p>
                 </div>
                 <div className="text-right">
                   <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${st[2]}`}>{st[1]}</span>
@@ -47,7 +59,7 @@ export default async function OrdersPage() {
               {o.customer.note && <p className="mt-3 rounded-md bg-steel-50 p-3 text-sm">”{o.customer.note}”</p>}
               <form action={setOrderStatus} className="mt-4 flex flex-wrap gap-2">
                 <input type="hidden" name="id" value={o.id} />
-                {STATUSES.map(([v, l]) => (
+                {STATUSES.filter(([v]) => MANUAL.includes(v)).map(([v, l]) => (
                   <button key={v} name="status" value={v} disabled={o.status === v} className="rounded-md border border-steel-300 px-3 py-1.5 text-xs font-semibold hover:border-ink disabled:border-ink disabled:bg-ink disabled:text-white">
                     {l}
                   </button>

@@ -10,6 +10,7 @@ const nav = [
   { href: '/admin/produkter/ny', label: 'Ny produkt' },
   { href: '/admin/ordrar', label: 'Ordrar' },
   { href: '/admin/meddelanden', label: 'Meddelanden' },
+  { href: '/admin/betalning', label: 'Betalning' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
