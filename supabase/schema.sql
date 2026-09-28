@@ -8,7 +8,7 @@ create table if not exists public.products (
   sku text default '',
   name text not null,
   brand text default '',
-  category text not null default 'diskmaskiner',
+  category text not null default 'fritoser',
   subcategory text default '',
   short text default '',
   description text default '',
@@ -54,26 +54,24 @@ insert into storage.buckets (id, name, public)
 values ('produkter', 'produkter', true)
 on conflict (id) do nothing;
 
--- De fyra startprodukterna
+-- Startprodukterna (2 fritöser + 3 populära maskiner)
+-- Tar bort äldre demoprodukter från första versionen om de finns
+delete from public.products where slug in ('nordgrad-fd-50s-frontmatad-diskmaskin-avhardare', 'nordgrad-hd-60-huvdiskmaskin', 'nordgrad-gd-40-glasdiskmaskin');
+
 insert into public.products (slug, sku, name, brand, category, subcategory, short, description, price, compare_price, stock, featured, art, specs, sort_order) values
-('nordgrad-fd-50-frontmatad-diskmaskin', 'NG-104500', 'FD-50 Frontmatad diskmaskin', 'Nordgrad', 'diskmaskiner', 'Frontmatad / underbänk',
- 'Vår mest sålda diskmaskin. Klarar lunchrusningen i café, pizzeria och mindre restaurang.',
- 'FD-50 är en fristående frontmatad diskmaskin för kök med 40–80 kuvert per pass. Den får plats under en vanlig bänk och tar standardkorgar 500×500 mm. Tre program täcker allt från glas till kastruller, och sköljpumpen håller sköljtemperaturen jämn på 85 °C även när maskinen körs tätt. Diskmedels- och sköljmedelsdosering är inbyggd.',
- 24900, 28900, 14, true, 'front',
- '[{"label":"Korgstorlek","value":"500 × 500 mm"},{"label":"Kapacitet","value":"30–40 korgar/tim"},{"label":"Program","value":"90 / 120 / 180 s"},{"label":"Instickshöjd","value":"330 mm"},{"label":"Sköljtemperatur","value":"85 °C"},{"label":"Anslutning","value":"400V 3N~ / 6,7 kW"},{"label":"Mått (B×D×H)","value":"600 × 600 × 820 mm"}]', 1),
-('nordgrad-fd-50s-frontmatad-diskmaskin-avhardare', 'NG-104505', 'FD-50S Frontmatad diskmaskin med avhärdare', 'Nordgrad', 'diskmaskiner', 'Frontmatad / underbänk',
- 'Samma arbetshäst som FD-50, med inbyggd avhärdare och avloppspump.',
- 'FD-50S är för kök med hårt vatten eller där avloppet sitter högt. Den inbyggda avhärdaren skyddar elementen mot kalk och ger fläckfria glas utan eftertorkning. Avloppspumpen gör att maskinen kan placeras fritt i köket. Dubbelväggig isolerad lucka håller ljudnivån nere och värmen inne.',
- 31900, null, 8, true, 'front',
- '[{"label":"Korgstorlek","value":"500 × 500 mm"},{"label":"Kapacitet","value":"30–40 korgar/tim"},{"label":"Program","value":"90 / 120 / 180 s"},{"label":"Instickshöjd","value":"330 mm"},{"label":"Avhärdare","value":"Inbyggd"},{"label":"Avloppspump","value":"Ja"},{"label":"Anslutning","value":"400V 3N~ / 6,7 kW"},{"label":"Mått (B×D×H)","value":"600 × 620 × 850 mm"}]', 2),
-('nordgrad-hd-60-huvdiskmaskin', 'NG-106000', 'HD-60 Huvdiskmaskin', 'Nordgrad', 'diskmaskiner', 'Huvdiskmaskin',
- 'Hög kapacitet för restauranger, skolkök och hotell. Lyft huven, skjut in korgen, klart.',
- 'HD-60 är en genomskjutsmaskin som byggs ihop med till- och frånbänk till en diskstation. Huven startar programmet automatiskt när den fälls ned. Med 60 korgar i timmen och 440 mm instickshöjd tar den både GN-kantiner och bakplåtar. Dubbla diskarmar i rostfritt ger jämnt resultat i hela korgen.',
- 49900, 54900, 5, true, 'hood',
- '[{"label":"Korgstorlek","value":"500 × 500 mm"},{"label":"Kapacitet","value":"upp till 60 korgar/tim"},{"label":"Program","value":"60 / 90 / 180 s"},{"label":"Instickshöjd","value":"440 mm"},{"label":"Start","value":"Automatisk vid stängd huv"},{"label":"Anslutning","value":"400V 3N~ / 9,8 kW"},{"label":"Mått (B×D×H)","value":"680 × 760 × 1480 mm (öppen huv 1930 mm)"}]', 3),
-('nordgrad-gd-40-glasdiskmaskin', 'NG-104000', 'GD-40 Glasdiskmaskin', 'Nordgrad', 'diskmaskiner', 'Glasdiskmaskin',
- 'Kompakt glasdiskare för bar och café. Får plats under bardisken.',
- 'GD-40 är byggd för glas och koppar. Lägre disktemperatur och mjukt sköljtryck skonar glasen, och ett 120-sekundersprogram gör att baren aldrig står utan rena glas. Kompakta mått på 450 mm bredd gör den lätt att placera under en bardisk.',
- 16900, null, 20, true, 'glass',
- '[{"label":"Korgstorlek","value":"400 × 400 mm"},{"label":"Kapacitet","value":"30 korgar/tim"},{"label":"Program","value":"120 / 180 s"},{"label":"Instickshöjd","value":"270 mm"},{"label":"Anslutning","value":"230V 1N~ / 3,1 kW"},{"label":"Mått (B×D×H)","value":"450 × 530 × 700 mm"}]', 4)
-on conflict (slug) do nothing;
+('nordgrad-nf-8-bankfritos-8-liter', 'NG-201080', 'NF-8 Bänkfritös 8 L', 'Nordgrad', 'fritoser', 'Bänkfritös', 'Den fritös vi säljer mest. Liten nog för bänken, stark nog för en hel kväll med pommes.', 'NF-8 är en bänkfritös för café, food truck och mindre restaurang. Oljekaret på 8 liter och 3,2 kW-elementet ger snabb återhämtning mellan satserna, så att andra korgen blir lika krispig som den första.
+
+Elementet fälls upp för rengöring och karet lyfts ur. Termostaten går mellan 50 och 190 °C, och ett separat överhettningsskydd stänger av om oljan blir för varm. Kopplas i ett vanligt 230V-uttag.', 3490, 3990, 32, true, 'fryer', '[{"label":"Kapacitet","value":"ca 6 kg pommes/tim"},{"label":"Volym","value":"8 L"},{"label":"Effekt","value":"3,2 kW"},{"label":"Temperatur","value":"50–190 °C"},{"label":"Korgar","value":"1"},{"label":"Anslutning","value":"230V 1N~"},{"label":"Mått (B×D×H)","value":"290 × 460 × 340 mm"}]'::jsonb, 1),
+('nordgrad-gf-18-golvfritos-18-liter', 'NG-201180', 'GF-18 Golvfritös 18 L', 'Nordgrad', 'fritoser', 'Golvfritös', 'För grill, hamburgerrestaurang och pizzeria där fritösen går hela passet.', 'GF-18 är en fristående golvfritös med 18 liters kar och två korgar, så att du kan köra två portioner parallellt. Med 15 kW återhämtar sig oljan snabbt även när frysta pommes läggs i.
+
+Kallzonen under elementen samlar smulor så att oljan håller längre. Oljan töms via en tappkran i skåpet, direkt i ett uppsamlingskärl.', 18900, null, 9, true, 'fryer', '[{"label":"Kapacitet","value":"ca 30 kg pommes/tim"},{"label":"Volym","value":"18 L"},{"label":"Effekt","value":"15 kW"},{"label":"Temperatur","value":"50–190 °C"},{"label":"Korgar","value":"2"},{"label":"Anslutning","value":"400V 3N~"},{"label":"Mått (B×D×H)","value":"400 × 700 × 900 mm"}]'::jsonb, 2),
+('nordgrad-fd-50-frontmatad-diskmaskin', 'NG-104500', 'FD-50 Frontmatad diskmaskin', 'Nordgrad', 'diskmaskiner', 'Frontmatad / underbänk', 'Får plats under bänken och klarar lunchrusningen i café, pizzeria och mindre restaurang.', 'FD-50 är en frontmatad diskmaskin för kök med 40–80 kuvert per pass. Den tar standardkorgar 500 × 500 mm och har tre program för allt från glas till kastruller.
+
+Sköljpumpen håller sköljvattnet på 85 °C även när maskinen körs tätt, och doseringen av disk- och sköljmedel är inbyggd.', 24900, 28900, 14, true, 'front', '[{"label":"Kapacitet","value":"30–40 korgar/tim"},{"label":"Korgstorlek","value":"500 × 500 mm"},{"label":"Effekt","value":"6,7 kW"},{"label":"Program","value":"90 / 120 / 180 s"},{"label":"Instickshöjd","value":"330 mm"},{"label":"Sköljtemperatur","value":"85 °C"},{"label":"Anslutning","value":"400V 3N~"},{"label":"Mått (B×D×H)","value":"600 × 600 × 820 mm"}]'::jsonb, 3),
+('nordgrad-ku-4-konvektionsugn-4-plat', 'NG-301040', 'KU-4 Konvektionsugn med ånga', 'Nordgrad', 'ugnar', 'Konvektionsugn', 'Bakar, steker och värmer fyra plåtar samtidigt. Ångan håller kött saftigt och bröd luftigt.', 'KU-4 tar fyra GN 1/1 eller bakplåtar 600 × 400 mm. Två fläktar med automatisk riktningsväxling ger jämn värme på alla plåtar, så du slipper vända dem.
+
+Befuktningen stängs på och av med en knapp. Luckan har dubbelglas som håller utsidan sval, och den öppnas sidledes så att den inte tar plats framför ugnen.', 21900, null, 6, true, 'oven', '[{"label":"Kapacitet","value":"4 × GN 1/1"},{"label":"Effekt","value":"6,4 kW"},{"label":"Temperatur","value":"50–270 °C"},{"label":"Plåtavstånd","value":"75 mm"},{"label":"Befuktning","value":"Ja"},{"label":"Anslutning","value":"400V 3N~"},{"label":"Mått (B×D×H)","value":"780 × 720 × 580 mm"}]'::jsonb, 4),
+('nordgrad-kb-2-kylbank-2-dorrar', 'NG-401360', 'KB-2 Kylbänk 2 dörrar', 'Nordgrad', 'kyl', 'Kylbänk', 'Arbetsbänk och kyl i ett. Råvarorna ligger kalla precis där du jobbar.', 'KB-2 har två dörrar för GN 1/1 och en arbetsyta i rostfritt stål. Kylaggregatet går med det naturliga köldmediet R290, drar lite ström och håller +2 till +8 °C även när dörrarna öppnas ofta.
+
+Dörrarna stänger själva, och listerna går att byta utan verktyg. Kopplas i ett vanligt 230V-uttag.', 14900, 16900, 11, true, 'fridge', '[{"label":"Volym","value":"260 L"},{"label":"Temperatur","value":"+2 till +8 °C"},{"label":"Effekt","value":"0,35 kW"},{"label":"Dörrar","value":"2"},{"label":"Köldmedium","value":"R290"},{"label":"Anslutning","value":"230V 1N~"},{"label":"Mått (B×D×H)","value":"1360 × 700 × 850 mm"}]'::jsonb, 5)
+on conflict (slug) do update set sku = excluded.sku, name = excluded.name, category = excluded.category, subcategory = excluded.subcategory, short = excluded.short, description = excluded.description, specs = excluded.specs, art = excluded.art, sort_order = excluded.sort_order;

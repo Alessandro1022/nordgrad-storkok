@@ -1,61 +1,63 @@
 import Link from 'next/link';
 import ProductImage from './ProductImage';
 import AddToCart from './AddToCart';
+import Spotlight from './Spotlight';
 import { kr } from '@/lib/format';
-import { discountPct, keySpecs } from '@/lib/product-utils';
+import { discountPct, keyFacts, keySpecs } from '@/lib/product-utils';
 import type { Product } from '@/lib/types';
 
-// Kortet ligger i ett rutnät med delade hårlinjer (se ProductGrid), som en tryckt katalog.
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product, large = false, badge }: { product: Product; large?: boolean; badge?: string }) {
   const off = discountPct(product);
-  const specs = keySpecs(product);
+
   return (
-    <article className="group relative flex flex-col bg-white">
-      <Link href={`/produkt/${product.slug}`} className="drafting relative block aspect-[4/3.4] overflow-hidden" tabIndex={-1} aria-hidden="true">
-        <ProductImage product={product} className="transition-transform duration-500 ease-out group-hover:scale-[1.035]" />
-        {off > 0 && (
-          <span className="tabular absolute right-0 top-4 bg-signal py-1 pl-2.5 pr-3 text-[13px] font-bold text-ink [clip-path:polygon(8px_0,100%_0,100%_100%,8px_100%,0_50%)]">
-            −{off} %
-          </span>
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-steel-200 bg-white transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-ink/25 hover:shadow-[0_30px_60px_-30px_rgba(21,24,22,0.35)]">
+      <Spotlight className={`spot relative bg-steel-100 ${large ? 'flex-1 min-h-[300px]' : 'aspect-[5/4]'}`}>
+        <Link href={`/produkt/${product.slug}`} tabIndex={-1} aria-hidden="true" className="absolute inset-0 flex items-center justify-center p-6">
+          <ProductImage product={product} className="transition-transform duration-500 ease-out group-hover:-translate-y-1.5 group-hover:scale-[1.04]" />
+        </Link>
+        <div className="pointer-events-none absolute left-4 top-4 flex gap-2">
+          {badge && <span className="rounded-full bg-ink px-3 py-1 text-[12px] font-semibold text-white">{badge}</span>}
+          {off > 0 && <span className="tabular rounded-full bg-signal px-3 py-1 text-[12px] font-bold text-ink">−{off} %</span>}
+        </div>
+      </Spotlight>
+
+      <div className={`flex flex-col ${large ? 'gap-5 p-6 sm:p-8' : 'gap-3 p-5'}`}>
+        <div>
+          <p className="text-[13px] text-ink-mute">{product.subcategory}</p>
+          <h3 className={`mt-1 font-semibold leading-tight tracking-tight ${large ? 'text-[26px] sm:text-[30px]' : 'text-[18px]'}`}>
+            <Link href={`/produkt/${product.slug}`} className="after:absolute after:inset-0 after:content-['']">
+              {product.name}
+            </Link>
+          </h3>
+          {large && <p className="mt-2 max-w-md text-[15px] leading-relaxed text-ink-soft">{product.short}</p>}
+        </div>
+
+        {large ? (
+          <dl className="grid grid-cols-3 gap-2">
+            {keyFacts(product).map((f) => (
+              <div key={f.label} className="rounded-lg bg-steel-50 px-3 py-2.5">
+                <dt className="text-[12px] text-ink-mute">{f.label}</dt>
+                <dd className="tabular mt-0.5 text-[14px] font-semibold">{f.value.replace(/^ca /, '')}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : (
+          <p className="tabular font-mono text-[12px] text-ink-mute">{keySpecs(product).join(' · ')}</p>
         )}
-      </Link>
-      <div className="flex flex-1 flex-col p-5">
-        <p className="artnr">Art.nr {product.sku || '—'}</p>
-        <h3 className="mt-1.5 text-[18px] font-semibold leading-snug tracking-tight">
-          <Link href={`/produkt/${product.slug}`} className="after:absolute after:inset-0 after:content-[''] hover:text-accent">
-            {product.name}
-          </Link>
-        </h3>
-        {specs.length > 0 && (
-          <p className="tabular mt-2 font-mono text-[12px] leading-relaxed text-ink-soft">{specs.join('  ·  ')}</p>
-        )}
-        <div className="mt-auto flex items-end justify-between gap-3 pt-5">
+
+        <div className="mt-auto flex items-center justify-between gap-3 pt-1">
           <div>
-            <p className="tabular text-[22px] font-bold leading-none tracking-tight">{kr(product.price)}</p>
-            <p className="tabular mt-1.5 text-[12px] text-ink-mute">
-              {off > 0 ? <span className="line-through">{kr(product.compare_price!)}</span> : 'exkl. moms'}
-              {off > 0 && ' · exkl. moms'}
+            <p className={`tabular font-bold leading-none tracking-tight ${large ? 'text-[30px]' : 'text-[22px]'}`}>{kr(product.price)}</p>
+            <p className="tabular mt-1 text-[12px] text-ink-mute">
+              {off > 0 && <span className="mr-1.5 line-through">{kr(product.compare_price!)}</span>}
+              exkl. moms
             </p>
           </div>
           <div className="relative z-10">
             <AddToCart product={product} compact />
           </div>
         </div>
-        <p className={`mt-4 flex items-center gap-1.5 border-t border-steel-100 pt-3 text-[12px] ${product.stock > 0 ? 'text-ok' : 'text-warn'}`}>
-          <span className={`h-1.5 w-1.5 rounded-full ${product.stock > 0 ? 'bg-ok' : 'bg-warn'}`} />
-          {product.stock > 0 ? 'I lager · 1–3 dagar' : 'Beställningsvara'}
-        </p>
       </div>
     </article>
-  );
-}
-
-export function ProductGrid({ children, cols = 4 }: { children: React.ReactNode; cols?: 3 | 4 }) {
-  return (
-    <div
-      className={`grid grid-cols-1 gap-px border border-steel-200 bg-steel-200 sm:grid-cols-2 ${cols === 4 ? 'lg:grid-cols-4' : 'xl:grid-cols-3'}`}
-    >
-      {children}
-    </div>
   );
 }

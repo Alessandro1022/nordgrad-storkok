@@ -19,7 +19,7 @@ function Submit({ isNew }: { isNew: boolean }) {
 
 export default function ProductForm({ product }: { product?: Product }) {
   const [state, action] = useFormState<SaveState, FormData>(saveProduct, {});
-  const [art, setArt] = useState<Product['art']>(product?.art ?? 'front');
+  const [art, setArt] = useState<Product['art']>(product?.art ?? 'fryer');
   const [preview, setPreview] = useState<string | null>(product?.image_url ?? null);
   const p = product;
 
@@ -47,7 +47,7 @@ export default function ProductForm({ product }: { product?: Product }) {
           </div>
           <div>
             <label htmlFor="category" className="label">Kategori</label>
-            <select id="category" name="category" defaultValue={p?.category ?? 'diskmaskiner'} className="input">
+            <select id="category" name="category" defaultValue={p?.category ?? 'fritoser'} className="input">
               {site.categories.map((c) => (
                 <option key={c.slug} value={c.slug}>{c.name}</option>
               ))}
@@ -142,7 +142,10 @@ export default function ProductForm({ product }: { product?: Product }) {
           <div>
             <label htmlFor="art" className="label">Illustration när bild saknas</label>
             <select id="art" name="art" value={art} onChange={(e) => setArt(e.target.value as Product['art'])} className="input">
-              <option value="front">Frontmatad maskin</option>
+              <option value="fryer">Fritös</option>
+              <option value="front">Frontmatad diskmaskin</option>
+              <option value="oven">Ugn</option>
+              <option value="fridge">Kylbänk</option>
               <option value="hood">Huvdiskmaskin</option>
               <option value="glass">Glasdiskmaskin</option>
               <option value="generic">Allmän maskin</option>

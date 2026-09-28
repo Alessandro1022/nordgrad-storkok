@@ -1,17 +1,20 @@
 import type { Product } from './types';
 
-// Plockar fram de 2–3 siffror en storkökskund jämför först.
-const PRIORITY = [/kapacitet/i, /korgstorlek/i, /anslutning/i, /volym/i, /effekt/i];
+// De siffror en köksägare jämför först, i prioritetsordning.
+const PRIORITY: RegExp[] = [/^kapacitet/i, /^volym/i, /^korgstorlek/i, /^effekt/i, /temperatur/i];
 
-export function keySpecs(p: Pick<Product, 'specs'>, n = 3) {
-  const out: string[] = [];
+export function keyFacts(p: Pick<Product, 'specs'>, n = 3) {
+  const out: { label: string; value: string }[] = [];
   for (const re of PRIORITY) {
     const s = p.specs.find((x) => re.test(x.label));
-    if (s) out.push(re.source.includes('anslutning') ? s.value.split('/')[0].trim() : s.value);
+    if (s && !out.includes(s)) out.push(s);
     if (out.length >= n) break;
   }
-  if (!out.length) return p.specs.slice(0, n).map((s) => s.value);
-  return out;
+  return out.length ? out : p.specs.slice(0, n);
+}
+
+export function keySpecs(p: Pick<Product, 'specs'>, n = 3) {
+  return keyFacts(p, n).map((f) => f.value.replace(/^ca /, ''));
 }
 
 export function discountPct(p: Pick<Product, 'price' | 'compare_price'>) {

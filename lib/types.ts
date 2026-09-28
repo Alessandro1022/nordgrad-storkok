@@ -15,7 +15,7 @@ export type Product = {
   stock: number;
   featured: boolean;
   image_url: string | null;
-  art: 'front' | 'hood' | 'glass' | 'generic';
+  art: 'fryer' | 'front' | 'oven' | 'fridge' | 'hood' | 'glass' | 'generic';
   specs: Spec[];
   sort_order: number;
   created_at: string;

@@ -13,11 +13,13 @@ const config: Config = {
         warn: '#b4580c',
       },
       borderRadius: {
-        sm: '2px',
-        DEFAULT: '2px',
-        md: '3px',
-        lg: '4px',
-        xl: '6px',
+        sm: '3px',
+        DEFAULT: '4px',
+        md: '6px',
+        lg: '10px',
+        xl: '14px',
+        '2xl': '20px',
+        '3xl': '28px',
       },
       fontFamily: {
         display: ['var(--font-sans)', 'Helvetica Neue', 'Arial', 'sans-serif'],

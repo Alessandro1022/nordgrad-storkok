@@ -72,6 +72,78 @@ h1, h2, h3 {
   }
 }
 
+/* ---------- Rörelse ---------- */
+
+/* Rubrik: varje ord glider upp bakom en mask */
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.word > span {
+  display: inline-block;
+  animation: word-rise 0.9s cubic-bezier(0.2, 0.75, 0.15, 1) both;
+}
+@keyframes word-rise {
+  from { transform: translateY(105%); }
+  to { transform: none; }
+}
+
+.fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.2, 0.75, 0.15, 1) both;
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Hero-fotot zoomar långsamt ut */
+.kenburns {
+  animation: kenburns 16s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
+@keyframes kenburns {
+  from { transform: scale(1.14); }
+  to { transform: scale(1); }
+}
+
+/* Svävande kort */
+.float {
+  animation: fade-up 0.9s 0.5s cubic-bezier(0.2, 0.75, 0.15, 1) both, float 7s 1.4s ease-in-out infinite alternate;
+}
+@keyframes float {
+  from { transform: translateY(0) rotate(-1deg); }
+  to { transform: translateY(-10px) rotate(0.5deg); }
+}
+
+/* Rullande löftesrad */
+.marquee {
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Avslöjas när sektionen scrollas in (sätts av <Reveal>) */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.reveal-shown {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.8s cubic-bezier(0.2, 0.75, 0.15, 1), transform 0.8s cubic-bezier(0.2, 0.75, 0.15, 1);
+}
+
+/* Ljuskägla som följer muspekaren över produktkort */
+.spot {
+  background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 40%), rgba(255, 255, 255, 0.95), transparent 60%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
